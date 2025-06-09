@@ -8,12 +8,11 @@ using namespace std;
 
 class SocialNetwork {
 private:
-    set<string> users;  // 所有用户
-    map<string, set<string>> follows;  // 关注关系：用户 -> 他关注的用户
-    map<string, set<string>> followers; // 被关注关系：用户 -> 关注他的人
-
+    set<string> users;
+    map<string, set<string>> follows;
+    map<string, set<string>> followers;
 public:
-    // 添加用户
+
     void addUser(const string& user) {
         if (users.count(user)) {
             cout << "用户已存在\n";
@@ -23,14 +22,14 @@ public:
         cout << "添加用户成功：" << user << endl;
     }
 
-    // 删除用户
+
     void deleteUser(const string& user) {
         if (!users.count(user)) {
             cout << "用户不存在\n";
             return;
         }
         users.erase(user);
-        // 清除用户的关注和被关注记录
+
         for (auto& f : follows[user])
             followers[f].erase(user);
         for (auto& f : followers[user])
@@ -40,7 +39,6 @@ public:
         cout << "删除用户成功：" << user << endl;
     }
 
-    // 添加关注
     void follow(const string& a, const string& b) {
         if (!users.count(a) || !users.count(b)) {
             cout << "用户不存在\n";
@@ -55,7 +53,6 @@ public:
         cout << a << " 关注了 " << b << endl;
     }
 
-    // 取消关注
     void unfollow(const string& a, const string& b) {
         if (!follows[a].count(b)) {
             cout << a << " 没有关注 " << b << endl;
@@ -66,12 +63,10 @@ public:
         cout << a << " 取消关注 " << b << endl;
     }
 
-    // 查看 A 是否关注 B
     bool isFollowing(const string& a, const string& b) {
         return follows[a].count(b);
     }
 
-    // 获取 A 的所有关注者
     void printFollowers(const string& user) {
         if (!users.count(user)) return;
         cout << user << " 的粉丝：";
@@ -80,7 +75,6 @@ public:
         cout << endl;
     }
 
-    // 获取 A 的所有关注对象
     void printFollows(const string& user) {
         if (!users.count(user)) return;
         cout << user << " 关注了：";
@@ -89,18 +83,16 @@ public:
         cout << endl;
     }
 
-    // 社交分析：共同关注
     void commonFollows(const string& a, const string& b) {
         set<string> result;
         set_intersection(follows[a].begin(), follows[a].end(),
-                         follows[b].begin(), follows[b].end(),
-                         inserter(result, result.begin()));
+            follows[b].begin(), follows[b].end(),
+            inserter(result, result.begin()));
         cout << a << " 和 " << b << " 的共同关注：";
         for (auto& u : result) cout << u << " ";
         cout << endl;
     }
 
-    // 社交分析：可能认识的人（差集）
     void possibleFriends(const string& a) {
         set<string> diff;
         for (const auto& user : users) {
@@ -112,7 +104,6 @@ public:
         cout << endl;
     }
 
-    // 社交分析：影响力最大的人（被最多人关注）
     void mostInfluential() {
         string most;
         size_t maxCount = 0;
@@ -124,7 +115,9 @@ public:
         }
         cout << "最有影响力的用户是：" << most << "（" << maxCount << "个粉丝）" << endl;
     }
+    
 };
+
 int main() {
     SocialNetwork sn;
     sn.addUser("A");
