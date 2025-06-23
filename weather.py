@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-# 中国各省会城市与其天气网对应的城市代码（部分）
 cities = {
     '北京': '101010100',
     '上海': '101020100',
